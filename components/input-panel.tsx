@@ -31,8 +31,9 @@ export function InputPanel({ values, onChange, onPredict, isLoading }: InputPane
     onChange({ ...values, [field]: value })
   }
 
-  const handleSliderChange = (field: keyof PredictionInput) => (value: number[]) => {
-    onChange({ ...values, [field]: value[0] })
+  const handleSliderChange = (field: keyof PredictionInput) => (value: number | readonly number[]) => {
+    const numValue = Array.isArray(value) ? value[0] : value
+    onChange({ ...values, [field]: numValue })
   }
 
   return (
@@ -48,8 +49,8 @@ export function InputPanel({ values, onChange, onPredict, isLoading }: InputPane
             <div className="flex items-center gap-1.5">
               <Label htmlFor="commits" className="text-sm font-medium">Commits</Label>
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help transition-colors hover:text-muted-foreground" />
+                <TooltipTrigger className="cursor-help">
+                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 transition-colors hover:text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent side="top" className="max-w-[200px] text-xs">
                   {tooltips.commits}
@@ -72,8 +73,8 @@ export function InputPanel({ values, onChange, onPredict, isLoading }: InputPane
             <div className="flex items-center gap-1.5">
               <Label htmlFor="bugs" className="text-sm font-medium">Bugs</Label>
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help transition-colors hover:text-muted-foreground" />
+                <TooltipTrigger className="cursor-help">
+                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 transition-colors hover:text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent side="top" className="max-w-[200px] text-xs">
                   {tooltips.bugs}
@@ -96,8 +97,8 @@ export function InputPanel({ values, onChange, onPredict, isLoading }: InputPane
             <div className="flex items-center gap-1.5">
               <Label htmlFor="developers" className="text-sm font-medium">Developers</Label>
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help transition-colors hover:text-muted-foreground" />
+                <TooltipTrigger className="cursor-help">
+                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 transition-colors hover:text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent side="top" className="max-w-[200px] text-xs">
                   {tooltips.developers}
@@ -125,8 +126,8 @@ export function InputPanel({ values, onChange, onPredict, isLoading }: InputPane
             <div className="flex items-center gap-1.5">
               <Label className="text-sm font-medium">Complexity</Label>
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help transition-colors hover:text-muted-foreground" />
+                <TooltipTrigger className="cursor-help">
+                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 transition-colors hover:text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent side="top" className="max-w-[200px] text-xs">
                   {tooltips.complexity}
@@ -157,8 +158,8 @@ export function InputPanel({ values, onChange, onPredict, isLoading }: InputPane
             <div className="flex items-center gap-1.5">
               <Label className="text-sm font-medium">Test Coverage</Label>
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 cursor-help transition-colors hover:text-muted-foreground" />
+                <TooltipTrigger className="cursor-help">
+                  <Info className="h-3.5 w-3.5 text-muted-foreground/60 transition-colors hover:text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent side="top" className="max-w-[200px] text-xs">
                   {tooltips.coverage}
