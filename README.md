@@ -1,152 +1,141 @@
-![Next.js](https://img.shields.io/badge/Next.js-14-black)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-active-success)
 
-# Software Quality Intelligence Platform
+# Qualioro
 
-**Predictive code quality analytics for teams that ship.**
+AI-powered software quality intelligence for teams that care about what they ship.
 
-Stop guessing about code health. Get a clear quality score, understand the risk, and know exactly what to fix — in seconds.
+Qualioro helps you understand your code quality in seconds — not just with a score, but with clear, explainable insights on what’s actually going wrong and what to fix next.
 
-[Live Demo](https://qualioro.vercel.app/) · [Get Started](#getting-started)
-
----
-
-## Why This Matters
-
-Shipping under pressure is normal. Shipping blind isn't.
-
-Without visibility into code health, small issues compound into technical debt, unpredictable releases, and burnt-out teams. This platform gives you **clarity** — input your metrics, get an instant quality score, and know what to prioritize.
+Live Demo: https://qualioro.vercel.app/
 
 ---
 
-## Features
+## Product Preview
 
-| Feature | What You Get |
-|---------|--------------|
-| **Quality Scoring** | AI-based score (0-100) with risk classification. Know your code health instantly. |
-| **Explainable AI** | See exactly how each metric contributes. No black boxes. |
-| **What-If Simulator** | Adjust inputs and see impact in real-time. Find high-leverage improvements before writing code. |
-| **Smart Recommendations** | Prioritized actions based on your data. Not generic advice. |
-| **Analytics Dashboard** | Track trends, compare runs, visualize score distribution. |
-| **Export & Share** | CSV exports, shareable links, PDF-ready reports. |
+### Landing
+![Landing](./screenshots/landing.png)
 
----
+### Input & Analysis
+![Dashboard](./screenshots/dashboard.png)
 
-## How It Works
-
-The scoring engine evaluates four core factors:
-
-| Factor | Measures | Ideal State |
-|--------|----------|-------------|
-| **Bug Density** | Bugs per commit | Lower is better |
-| **Complexity** | Cyclomatic complexity | Manageable (< 10) |
-| **Test Coverage** | Code covered by tests | Higher is better |
-| **Dev Productivity** | Commits per developer | Balanced output |
-
-Each factor is weighted based on empirical research. The model outputs:
-
-- **Quality Score** (0-100) — Overall code health
-- **Risk Level** — Low / Medium / High release readiness
-- **Confidence** — Prediction reliability given your data
-- **Recommendations** — Specific actions ranked by impact
-
-Toggle **Advanced Mode** to inspect the exact formulas.
+### Insights & Risk Breakdown
+![Insights](./screenshots/result.png)
 
 ---
 
-## Architecture
+## Why it exists
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Client (Next.js)                     │
-├─────────────────────────────────────────────────────────┤
-│  Input Panel  →  Prediction Engine  →  Results Display  │
-│                        ↓                                │
-│              ┌─────────────────────┐                    │
-│              │   Scoring Model     │                    │
-│              │  (Weighted Formula) │                    │
-│              └─────────────────────┘                    │
-│                        ↓                                │
-│    ┌────────────┬──────────────┬───────────────┐        │
-│    │ Risk Level │ Confidence   │ Recommendations│       │
-│    └────────────┴──────────────┴───────────────┘        │
-└─────────────────────────────────────────────────────────┘
-```
+Most teams don’t lack effort — they lack visibility.
 
-**Data flow**: Metrics enter via the Input Panel → the Prediction Engine computes a weighted quality score → Results render with risk classification, confidence indicators, and actionable recommendations.
+Codebases grow, deadlines shrink, and quality becomes something you “feel” instead of measure. That’s where problems start: hidden bugs, rising complexity, unstable releases.
 
-All logic runs client-side. No data leaves your browser.
+Qualioro turns that ambiguity into something concrete:
+- A clear quality score
+- A visible risk level
+- A breakdown of what’s actually driving issues
 
 ---
 
-## Tech Stack
+## Core capabilities
 
-| Layer | Technology |
-|-------|------------|
-| Framework | Next.js 15 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 |
-| Components | shadcn/ui |
-| Charts | Recharts |
-
----
-
-## Project Structure
-
-```
-app/           → Routes and pages
-components/    → Reusable UI components
-lib/           → Prediction engine, utilities, types
-public/        → Static assets
-```
+| Capability | Description |
+|-----------|------------|
+| Quality scoring | Generates a 0–100 score with a clear risk classification |
+| Explainable analysis | Shows how each metric contributes to the final result |
+| What-if simulation | Adjust inputs and instantly see how the score changes |
+| Targeted recommendations | Suggests actions based on weakest areas |
+| Visual breakdowns | Makes trends and trade-offs easy to understand |
+| Export options | Share results or download them when needed |
 
 ---
 
-## Getting Started
+## How it works
 
-```bash
-# Clone the repository
-git clone https://github.com/Fadydesoky/Qualioro.git
+The system evaluates a small set of meaningful signals:
 
-# Install dependencies
-npm install
+| Factor | What it reflects |
+|--------|------------------|
+| Bug density | Reliability and defect rate |
+| Complexity | Maintainability of the code |
+| Test coverage | Confidence in changes |
+| Team output | Development activity balance |
 
-# Start development server
-npm run dev
-```
+From that, it produces:
+- A quality score
+- A risk level (low / medium / high)
+- A confidence indicator
+- Actionable recommendations
 
-Open [localhost:3000](http://localhost:3000) to start analyzing.
+Advanced mode exposes the full scoring breakdown for transparency.
 
 ---
 
-## Use Cases
+## Architecture (simplified)
 
-- **Pre-release checks** — Know if you're ready to ship
-- **Debt prioritization** — Quantify what to fix first
-- **Team health** — Spot trends before they become problems
-- **Code reviews** — Data-backed quality conversations
-- **Sprint planning** — Factor quality into velocity
+Input Metrics → Scoring Engine → Analysis Layer → UI
+
+Everything runs client-side. No data is sent or stored externally.
+
+---
+
+## Tech stack
+
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Recharts
+
+---
+
+## Project structure
+
+app/           → Routing and pages  
+components/    → UI building blocks  
+lib/           → Scoring logic and utilities  
+public/        → Static assets  
+screenshots/   → Product previews  
+
+---
+
+## Getting started
+
+Clone the repository, install dependencies, and run the development server.
+
+Then open http://localhost:3000
+
+---
+
+## Use cases
+
+- Pre-release quality checks  
+- Prioritizing technical debt  
+- Supporting code reviews with data  
+- Monitoring engineering health  
+- Making better sprint decisions  
 
 ---
 
 ## Roadmap
 
-- [ ] GitHub/GitLab integration for automated metrics
-- [ ] Team dashboards with role-based access
-- [ ] CI/CD pipeline data ingestion
-- [ ] Historical trend alerts
-- [ ] Public API for custom integrations
+- GitHub / GitLab integrations  
+- CI/CD data ingestion  
+- Team-level dashboards  
+- Historical tracking and alerts  
+- Public API  
 
 ---
 
 ## Author
 
-Built by [**Fady Desoky**](https://github.com/Fadydesoky)
+Fady Desoky  
+https://github.com/Fadydesoky
 
 ---
 
 <p align="center">
-  <strong>Ship better code, faster.</strong>
+  <strong>Better visibility. Better decisions. Better code.</strong>
 </p>
