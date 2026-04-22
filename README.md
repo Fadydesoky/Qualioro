@@ -108,7 +108,7 @@ public/        → Static assets
 
 ```bash
 # Clone the repository
-git clone https://github.com/Fadydesoky/Software-Quality-Intelligence-Platform.git
+git clone https://github.com/Fadydesoky/Qualioro.git
 
 # Install dependencies
 npm install
