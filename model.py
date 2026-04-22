@@ -4,47 +4,50 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 
 np.random.seed(42)
-n = 500
+n = 600
 
 data = pd.DataFrame({
     "commits": np.random.randint(50, 500, n),
     "bugs": np.random.randint(5, 150, n),
     "complexity": np.random.randint(1, 10, n),
-    "developers": np.random.randint(1, 10, n),
+    "developers": np.random.randint(1, 12, n),
     "coverage": np.random.randint(30, 100, n)
 })
 
-data["bugs"] = (data["complexity"] * np.random.randint(5, 15, n)) + np.random.randint(0, 20, n)
-data["coverage"] = 100 - (data["complexity"] * np.random.randint(3, 8, n)) + np.random.randint(-5, 5, n)
+data["bugs"] = (data["complexity"] * np.random.randint(4, 12, n)) + np.random.randint(0, 15, n)
+data["coverage"] = 100 - (data["complexity"] * np.random.randint(3, 7, n)) + np.random.randint(-5, 5, n)
 data["coverage"] = data["coverage"].clip(10, 100)
 
 data["bug_density"] = data["bugs"] / data["commits"]
 data["productivity"] = data["commits"] / data["developers"]
 
-X = data.copy()
+def compute_score(bd, cx, cv):
+    s = 100 - (bd * 80 + cx * 4 - cv * 0.8)
+    return int(max(0, min(100, s)))
+
+data["score"] = data.apply(lambda r: compute_score(r["bug_density"], r["complexity"], r["coverage"]), axis=1)
+
+# quantile thresholds (auto calibration)
+q_high = float(data["score"].quantile(0.33))
+q_low = float(data["score"].quantile(0.66))
+
+def score_to_risk(s):
+    if s < q_high:
+        return "High"
+    elif s < q_low:
+        return "Medium"
+    return "Low"
+
+data["risk"] = data["score"].apply(score_to_risk)
+
+X = data[["commits","bugs","complexity","developers","coverage","bug_density","productivity"]]
+y = data["risk"]
 
 le = LabelEncoder()
-
-# temporary risk generation for training
-risk_score = (
-    data["bug_density"] * 0.5 +
-    data["complexity"] * 0.3 -
-    data["coverage"] * 0.2
-)
-
-def classify_risk(score):
-    if score < -5:
-        return "Low"
-    elif score < 0:
-        return "Medium"
-    return "High"
-
-y = risk_score.apply(classify_risk)
 y_enc = le.fit_transform(y)
 
-model = RandomForestClassifier(n_estimators=120, random_state=42)
+model = RandomForestClassifier(n_estimators=140, random_state=42)
 model.fit(X, y_enc)
-
 
 def predict_quality(commits, bugs, complexity, developers, coverage):
     bug_density = bugs / max(commits, 1)
@@ -60,22 +63,8 @@ def predict_quality(commits, bugs, complexity, developers, coverage):
         "productivity": productivity
     }])
 
-    # score calculation (core reference)
-    score = int(
-        max(0, min(100, 100 - (
-            bug_density * 100 +
-            complexity * 5 -
-            coverage * 0.7
-        )))
-    )
-
-    # unified risk logic based on score
-    if score < 40:
-        final_risk = "High"
-    elif score < 70:
-        final_risk = "Medium"
-    else:
-        final_risk = "Low"
+    score = compute_score(bug_density, complexity, coverage)
+    final_risk = score_to_risk(score)
 
     reasons = []
     if coverage < 50:
