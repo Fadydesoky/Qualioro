@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 
 # -------------------------------
-# Generating realistic dataset
+# Data generation (reproducible)
 # -------------------------------
 np.random.seed(42)
 n = 500
@@ -17,13 +17,12 @@ data = pd.DataFrame({
     "coverage": np.random.randint(30, 100, n)
 })
 
+# make relations more realistic
 data["bugs"] = (data["complexity"] * np.random.randint(5, 15, n)) + np.random.randint(0, 20, n)
 data["coverage"] = 100 - (data["complexity"] * np.random.randint(3, 8, n)) + np.random.randint(-5, 5, n)
 data["coverage"] = data["coverage"].clip(10, 100)
 
-# -------------------------------
-# Feature Engineering
-# -------------------------------
+# features
 data["bug_density"] = data["bugs"] / data["commits"]
 data["productivity"] = data["commits"] / data["developers"]
 
@@ -38,31 +37,26 @@ def classify_risk(score):
         return "Low"
     elif score < 0:
         return "Medium"
-    else:
-        return "High"
+    return "High"
 
 data["risk"] = data["risk_score"].apply(classify_risk)
 
-# -------------------------------
-# Model Training
-# -------------------------------
+# model
 X = data.drop(["risk", "risk_score"], axis=1)
 y = data["risk"]
 
 le = LabelEncoder()
-y_encoded = le.fit_transform(y)
+y_enc = le.fit_transform(y)
 
-model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X, y_encoded)
+model = RandomForestClassifier(n_estimators=120, random_state=42)
+model.fit(X, y_enc)
 
-# -------------------------------
-# Prediction Function
-# -------------------------------
+
 def predict_quality(commits, bugs, complexity, developers, coverage):
     bug_density = bugs / max(commits, 1)
     productivity = commits / max(developers, 1)
 
-    input_df = pd.DataFrame([{
+    row = pd.DataFrame([{
         "commits": commits,
         "bugs": bugs,
         "complexity": complexity,
@@ -72,10 +66,10 @@ def predict_quality(commits, bugs, complexity, developers, coverage):
         "productivity": productivity
     }])
 
-    prediction = model.predict(input_df)
-    model_risk = le.inverse_transform(prediction)[0]
+    pred = model.predict(row)
+    model_risk = le.inverse_transform(pred)[0]
 
-    # Hybrid Logic
+    # hybrid adjustment
     if coverage < 50 and bug_density > 0.3:
         final_risk = "High"
     elif coverage < 60:
@@ -83,25 +77,28 @@ def predict_quality(commits, bugs, complexity, developers, coverage):
     else:
         final_risk = model_risk
 
-    # Quality Score (0–100)
+    # score (0..100)
     score = int(
-        max(0, min(100, 100 - (
-            bug_density * 100 +
-            complexity * 5 -
-            coverage * 0.7
-        )))
+        max(0, min(100, 100 - (bug_density * 100 + complexity * 5 - coverage * 0.7)))
     )
 
-    # Explanation
-    explanation = []
-
+    reasons = []
     if coverage < 50:
-        explanation.append("Low test coverage increases risk")
+        reasons.append("Low test coverage")
     if bug_density > 0.3:
-        explanation.append("High bug density detected")
+        reasons.append("High bug density")
     if complexity > 7:
-        explanation.append("High code complexity")
+        reasons.append("High code complexity")
     if productivity < 20:
-        explanation.append("Low developer productivity")
+        reasons.append("Low developer productivity")
 
-    return final_risk, explanation, score
+    return {
+        "risk": final_risk,
+        "score": score,
+        "reasons": reasons,
+        "metrics": {
+            "bugs": bugs,
+            "coverage": coverage,
+            "complexity": complexity
+        }
+    }
