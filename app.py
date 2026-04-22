@@ -11,32 +11,74 @@ if theme == "Dark":
     fg = "#ffffff"
     card = "rgba(255,255,255,0.05)"
 else:
-    bg = "#f5f7fa"
-    fg = "#111111"
+    bg = "#f8fafc"
+    fg = "#111827"
     card = "#ffffff"
-
+    
 st.markdown(f"""
 <style>
+
+/* Page */
 .stApp {{
     background-color: {bg};
     color: {fg};
 }}
+
+/* Layout */
 .block-container {{
-    max-width: 1100px;
+    max-width: 1050px;
     padding-top: 2rem;
 }}
+
+/* Card */
 .card {{
     padding: 18px;
     border-radius: 14px;
     background: {card};
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    margin-bottom: 16px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    margin-bottom: 18px;
 }}
-button[kind="primary"] {{
-    border-radius: 10px;
-    height: 44px;
-    font-weight: 600;
+
+/* Inputs FIX (المهم جدًا) */
+input, textarea {{
+    background-color: {"#1e1e1e" if theme=="Dark" else "#ffffff"} !important;
+    color: {"#ffffff" if theme=="Dark" else "#111111"} !important;
+    border-radius: 10px !important;
 }}
+
+/* Sliders */
+.stSlider > div {{
+    color: {fg};
+}}
+
+/* Labels */
+label {{
+    color: {fg} !important;
+    font-weight: 500;
+}}
+
+/* Button */
+button {{
+    border-radius: 10px !important;
+    height: 45px !important;
+    font-weight: 600 !important;
+}}
+
+/* Table fix */
+.dataframe {{
+    background-color: {card} !important;
+}}
+
+/* Smooth animation */
+.card {{
+    animation: fadeIn 0.4s ease-in-out;
+}}
+
+@keyframes fadeIn {{
+    from {{opacity: 0; transform: translateY(8px);}}
+    to {{opacity: 1; transform: translateY(0);}}
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
