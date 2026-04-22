@@ -1,3 +1,8 @@
+![Next.js](https://img.shields.io/badge/Next.js-14-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-active-success)
+
 # Software Quality Intelligence Platform
 
 **Predictive code quality analytics for teams that ship.**
