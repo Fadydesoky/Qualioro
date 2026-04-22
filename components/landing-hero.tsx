@@ -36,16 +36,13 @@ export function LandingHero() {
             </p>
             
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button 
-                size="lg" 
-                asChild
-                className="h-12 px-8 text-base gap-2 shadow-lg shadow-primary/20"
+              <Link 
+                href="/analyze"
+                className="inline-flex items-center justify-center h-12 px-8 text-base gap-2 rounded-md bg-primary text-primary-foreground font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors"
               >
-                <Link href="/analyze">
-                  Analyze My Project
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
+                Analyze My Project
+                <ArrowRight className="h-4 w-4" />
+              </Link>
               <Button 
                 variant="outline" 
                 size="lg"
@@ -325,16 +322,13 @@ export function LandingHero() {
 
           {/* CTA */}
           <div className="mt-16 text-center">
-            <Button 
-              size="lg" 
-              asChild
-              className="h-12 px-8 text-base gap-2 shadow-lg shadow-primary/20"
+            <Link 
+              href="/analyze"
+              className="inline-flex items-center justify-center h-12 px-8 text-base gap-2 rounded-md bg-primary text-primary-foreground font-medium shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors"
             >
-              <Link href="/analyze">
-                Start Your Analysis
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
+              Start Your Analysis
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>

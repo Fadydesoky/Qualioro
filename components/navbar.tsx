@@ -4,7 +4,6 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Activity, Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 
@@ -88,11 +87,12 @@ export function Navbar({ showAnalyzeButton = true }: NavbarProps) {
           <ThemeToggle />
           
           {showAnalyzeButton && (
-            <Button asChild className="hidden sm:inline-flex">
-              <Link href="/analyze">
-                {pathname === "/analyze" ? "Analyzing" : "Analyze"}
-              </Link>
-            </Button>
+            <Link 
+              href="/analyze"
+              className="hidden sm:inline-flex items-center justify-center h-9 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+            >
+              {pathname === "/analyze" ? "Analyzing" : "Analyze"}
+            </Link>
           )}
 
           {/* Mobile Menu Toggle */}
@@ -124,9 +124,12 @@ export function Navbar({ showAnalyzeButton = true }: NavbarProps) {
               </button>
             ))}
             {showAnalyzeButton && (
-              <Button asChild className="mt-2">
-                <Link href="/analyze">Analyze My Project</Link>
-              </Button>
+              <Link 
+                href="/analyze"
+                className="mt-2 inline-flex items-center justify-center h-10 px-4 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+              >
+                Analyze My Project
+              </Link>
             )}
           </nav>
         </div>

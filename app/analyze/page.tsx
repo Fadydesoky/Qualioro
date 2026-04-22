@@ -26,7 +26,6 @@ import { ConfidenceBadge } from "@/components/confidence-badge"
 import { ScoreGauge } from "@/components/score-gauge"
 import { AIInsightsPanel } from "@/components/ai-insights-panel"
 import { ExecutiveSummary } from "@/components/executive-summary"
-import { Button } from "@/components/ui/button"
 import { 
   predictQuality, 
   validateInputs,
@@ -140,13 +139,14 @@ function AnalyzeContent() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <div className="flex items-center gap-4">
             {/* Back to Home */}
-            <Button variant="ghost" size="sm" asChild className="gap-2">
-              <Link href="/">
-                <ArrowLeft className="h-4 w-4" />
-                <span className="hidden sm:inline">Back to Home</span>
-                <Home className="h-4 w-4 sm:hidden" />
-              </Link>
-            </Button>
+            <Link 
+              href="/" 
+              className="inline-flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground rounded-md hover:bg-muted/50 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline">Back to Home</span>
+              <Home className="h-4 w-4 sm:hidden" />
+            </Link>
             
             <div className="h-6 w-px bg-border/60 hidden sm:block" />
             
